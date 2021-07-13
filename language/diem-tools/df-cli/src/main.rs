@@ -1,8 +1,12 @@
 // Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
+use std::path::PathBuf;
+
 use anyhow::Result;
-use move_cli::{Command, Move};
+use diem_prefetched_transaction_replay::PrefetchedReplayCLI;
+use diem_vm::DiemVM;
+use move_cli::{Command as MoveCLICommand, Move};
 use move_core_types::errmap::ErrorMapping;
 use structopt::StructOpt;
 
@@ -18,20 +22,29 @@ pub struct DfCli {
 #[derive(StructOpt)]
 pub enum DfCommands {
     #[structopt(flatten)]
-    Command(Command),
+    MoveCLICommand(MoveCLICommand),
     // extra commands available only in df-cli can be added below
+    #[structopt(name = "prefetched-replay")]
+    PrefetchedReplayCommand(PrefetchedReplayCLI),
 }
 
 fn main() -> Result<()> {
     let error_descriptions: ErrorMapping =
         bcs::from_bytes(diem_framework_releases::current_error_descriptions())?;
     let args = DfCli::from_args();
-    match &args.cmd {
-        DfCommands::Command(cmd) => move_cli::run_cli(
+    match args.cmd {
+        DfCommands::MoveCLICommand(cmd) => move_cli::run_cli(
             diem_vm::natives::diem_natives(),
             &error_descriptions,
             &args.move_args,
-            cmd,
+            &cmd,
         ),
+        DfCommands::PrefetchedReplayCommand(cmd) => {
+            diem_prefetched_transaction_replay::run_cli::<DiemVM>(
+                cmd,
+                PathBuf::from(args.move_args.build_dir),
+                PathBuf::from(args.move_args.storage_dir),
+            )
+        }
     }
 }

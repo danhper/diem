@@ -45,20 +45,20 @@ pub struct Move {
     /// Directory storing Move resources, events, and module bytecodes produced by module publishing
     /// and script execution.
     #[structopt(long, default_value = DEFAULT_STORAGE_DIR, global = true)]
-    storage_dir: String,
+    pub storage_dir: String,
     /// Directory storing build artifacts produced by compilation
     #[structopt(long, short = "d", default_value = DEFAULT_BUILD_DIR, global = true)]
-    build_dir: String,
+    pub build_dir: String,
     /// Dependency inclusion mode
     #[structopt(
         long,
         default_value = DEFAULT_DEP_MODE,
         global = true,
     )]
-    mode: ModeType,
+    pub mode: ModeType,
     /// Print additional diagnostics
     #[structopt(short = "v", global = true)]
-    verbose: bool,
+    pub verbose: bool,
 }
 
 /// MoveCLI is the CLI that will be executed by the `move-cli` command

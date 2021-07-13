@@ -1510,6 +1510,7 @@ dependencies = [
  "bcs",
  "datatest-stable",
  "diem-framework-releases",
+ "diem-prefetched-transaction-replay",
  "diem-vm",
  "diem-workspace-hack",
  "move-cli",
@@ -2229,6 +2230,30 @@ dependencies = [
  "tokio",
  "tokio-util",
  "toml",
+]
+
+[[package]]
+name = "diem-prefetched-transaction-replay"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs",
+ "diem-client",
+ "diem-config",
+ "diem-read-write-set",
+ "diem-state-view",
+ "diem-transaction-replay",
+ "diem-types",
+ "diem-validator-interface",
+ "diem-vm",
+ "diemdb",
+ "move-binary-format",
+ "move-bytecode-utils",
+ "move-cli",
+ "move-core-types",
+ "read-write-set",
+ "storage-interface",
+ "structopt 0.3.21",
 ]
 
 [[package]]
