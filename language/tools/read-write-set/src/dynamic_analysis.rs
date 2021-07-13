@@ -82,18 +82,22 @@ impl ConcretizedFormals {
     fn concretize_secondary_indexes(
         self,
         blockchain_view: &impl MoveResolver,
-        env: &GlobalEnv,
-    ) -> ConcretizedSecondaryIndexes {
+        fun_env: &FunctionEnv,
+    ) -> Result<ConcretizedSecondaryIndexes> {
         // TODO: check if there are no secondary indexes and return accesses if so
         let annotator = MoveValueAnnotator::new(blockchain_view);
         let mut acc = AccessPathTrie::default();
-        // TODO: do not unwrap here. iter_paths doesn't support Result, so need to create an Iter instead
-        // of iter_paths or return a bool inside resolve_secondary instead of using ?
-        self.0.iter_paths(|access_path, access| {
-            Self::concretize_secondary_indexes_(&annotator, access_path, access, env, &mut acc)
-                .unwrap();
+        let results = self.0.map_paths(|access_path, access| {
+            Self::concretize_secondary_indexes_(
+                &annotator,
+                access_path,
+                access,
+                fun_env.module_env.env,
+                &mut acc,
+            )
         });
-        ConcretizedSecondaryIndexes(ConcretizedFormals(acc))
+        results.into_iter().collect::<Result<_>>()?;
+        Ok(ConcretizedSecondaryIndexes(ConcretizedFormals(acc)))
     }
 
     /// Construct a `ConcretizedFormals` from `accesses` by binding the formals and type variables in
@@ -312,7 +316,7 @@ pub fn concretize(
 ) -> Result<ConcretizedSecondaryIndexes> {
     let concretized_formals =
         ConcretizedFormals::from_args(accesses, signers, actuals, type_actuals, fun_env)?;
-    Ok(concretized_formals.concretize_secondary_indexes(blockchain_view, fun_env.module_env.env))
+    concretized_formals.concretize_secondary_indexes(blockchain_view, fun_env)
 }
 
 impl Deref for ConcretizedFormals {

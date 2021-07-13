@@ -850,6 +850,14 @@ impl TransactionView {
     }
 }
 
+impl TryInto<Transaction> for TransactionView {
+    type Error = Error;
+
+    fn try_into(self) -> Result<Transaction, Self::Error> {
+        bcs::from_bytes(&self.bytes).map_err(|e| format_err!("{}", e))
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct TransactionListView(pub Vec<TransactionView>);
 

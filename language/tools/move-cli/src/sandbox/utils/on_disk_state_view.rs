@@ -251,7 +251,7 @@ impl OnDiskStateView {
     }
 
     /// Read the resource bytes stored on-disk at `addr`/`tag`
-    fn get_module_bytes(&self, module_id: &ModuleId) -> Result<Option<Vec<u8>>> {
+    pub fn get_module_bytes(&self, module_id: &ModuleId) -> Result<Option<Vec<u8>>> {
         Self::get_bytes(&self.get_module_path(module_id))
     }
 

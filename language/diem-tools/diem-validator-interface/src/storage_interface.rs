@@ -50,11 +50,32 @@ impl DiemValidatorInterface for DBDebuggerInterface {
         self.0
             .get_events_with_proofs(key, start_seq, Order::Ascending, limit, None)
     }
+
     fn get_committed_transactions(&self, start: Version, limit: u64) -> Result<Vec<Transaction>> {
         Ok(self
             .0
             .get_transactions(start, limit, self.get_latest_version()?, false)?
             .transactions)
+    }
+
+    fn get_account_transactions(
+        &self,
+        address: AccountAddress,
+        start: Version,
+        limit: u64,
+    ) -> Result<Vec<Transaction>> {
+        let txns = self.0.get_account_transactions(
+            address,
+            start,
+            limit,
+            false,
+            self.get_latest_version()?,
+        )?;
+        Ok(txns
+            .into_inner()
+            .into_iter()
+            .map(|t| t.transaction)
+            .collect())
     }
 
     fn get_latest_version(&self) -> Result<Version> {

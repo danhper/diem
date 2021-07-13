@@ -76,6 +76,7 @@ members = [
     "language/diem-tools/diem-validator-interface",
     "language/diem-tools/e2e-tests-replay",
     "language/diem-tools/oncall-trainer",
+    "language/diem-tools/prefetched-transaction-replay",
     "language/diem-tools/transaction-replay",
     "language/diem-tools/writeset-transaction-generator",
     "language/diem-transaction-benchmarks",

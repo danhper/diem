@@ -1607,6 +1607,8 @@ dependencies = [
  "bcs",
  "datatest-stable",
  "diem-framework-releases",
+ "diem-logger",
+ "diem-prefetched-transaction-replay",
  "diem-vm",
  "diem-workspace-hack",
  "move-cli",
@@ -2414,6 +2416,34 @@ dependencies = [
  "proptest-derive",
  "rand 0.8.3",
  "rayon",
+]
+
+[[package]]
+name = "diem-prefetched-transaction-replay"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs",
+ "diem-client",
+ "diem-config",
+ "diem-logger",
+ "diem-read-write-set",
+ "diem-state-view",
+ "diem-transaction-replay",
+ "diem-types",
+ "diem-validator-interface",
+ "diem-vm",
+ "diem-workspace-hack",
+ "diemdb",
+ "hex",
+ "move-binary-format",
+ "move-bytecode-utils",
+ "move-cli",
+ "move-core-types",
+ "read-write-set",
+ "serde_json",
+ "storage-interface",
+ "structopt 0.3.21",
 ]
 
 [[package]]

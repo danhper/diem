@@ -518,6 +518,19 @@ impl<T: FootprintDomain> AccessPathTrie<T> {
     }
 
     /// Apply `f` to each (access path, data) pair encoded in `self`
+    /// and collects the result
+    pub fn map_paths<F, R>(&self, mut f: F) -> Vec<R>
+    where
+        F: FnMut(&AccessPath, &T) -> R,
+    {
+        let mut results = vec![];
+        self.iter_paths_opt(|ap, t_opt| {
+            t_opt.map(|t| results.push(f(ap, t)));
+        });
+        results
+    }
+
+    /// Apply `f` to each (access path, data) pair encoded in `self`
     /// and collects the result when `f` returns `Some(r)`
     pub fn filter_map_paths<F, R>(&self, mut f: F) -> Vec<R>
     where

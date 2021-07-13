@@ -93,6 +93,27 @@ impl DiemValidatorInterface for TestInterface {
         Ok(result)
     }
 
+    fn get_account_transactions(
+        &self,
+        address: AccountAddress,
+        start: Version,
+        limit: u64,
+    ) -> Result<Vec<Transaction>> {
+        Ok(self
+            .transaction_store
+            .iter()
+            .filter_map(|tx| match tx {
+                Transaction::UserTransaction(txn)
+                    if txn.sender() == address && start >= txn.sequence_number() =>
+                {
+                    Some(tx.clone())
+                }
+                _ => None,
+            })
+            .take(limit as usize)
+            .collect())
+    }
+
     fn get_latest_version(&self) -> Result<Version> {
         Ok(self.latest_version)
     }

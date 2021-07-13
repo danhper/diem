@@ -191,7 +191,6 @@ members = [
     "diem-keygen",
     "diem-parallel-executor", # Will be removed once parallel execution is used in production.
     "diem-proptest-helpers",
-    "diem-read-write-set",
     "diem-retrier",
     "diem-swarm",
     "diem-transactional-test-harness",
@@ -264,6 +263,7 @@ diem_crates_in_language = [
     "diem-validator-interface",
     "diem-transactional-test-harness",
     "diem-transaction-replay",
+    "diem-prefetched-transaction-replay",
     "diem-transaction-benchmarks",
     "diem-writeset-generator",
     "diem-vm",

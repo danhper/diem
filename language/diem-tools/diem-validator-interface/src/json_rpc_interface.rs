@@ -12,7 +12,7 @@ use diem_types::{
     event::EventKey,
     transaction::{Transaction, Version},
 };
-use std::convert::TryFrom;
+use std::convert::{TryFrom, TryInto};
 
 pub struct JsonRpcDebuggerInterface {
     client: BlockingClient,
@@ -68,13 +68,20 @@ impl DiemValidatorInterface for JsonRpcDebuggerInterface {
             .client
             .get_transactions(start, limit, false)?
             .into_inner();
+        txns.into_iter().map(|t| t.try_into()).collect()
+    }
 
-        let mut output = vec![];
-        for txn in txns.into_iter() {
-            let raw_bytes = txn.bytes;
-            output.push(bcs::from_bytes(&raw_bytes)?);
-        }
-        Ok(output)
+    fn get_account_transactions(
+        &self,
+        account: AccountAddress,
+        start: Version,
+        limit: u64,
+    ) -> Result<Vec<Transaction>> {
+        let txns = self
+            .client
+            .get_account_transactions(account, start, limit, false)?
+            .into_inner();
+        txns.into_iter().map(|t| t.try_into()).collect()
     }
 
     fn get_latest_version(&self) -> Result<Version> {

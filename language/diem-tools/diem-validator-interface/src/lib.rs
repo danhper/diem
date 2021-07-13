@@ -30,6 +30,12 @@ pub trait DiemValidatorInterface: Sync {
     fn get_events(&self, key: &EventKey, start_seq: u64, limit: u64)
         -> Result<Vec<EventWithProof>>;
     fn get_committed_transactions(&self, start: Version, limit: u64) -> Result<Vec<Transaction>>;
+    fn get_account_transactions(
+        &self,
+        account: AccountAddress,
+        start: Version,
+        limit: u64,
+    ) -> Result<Vec<Transaction>>;
     fn get_latest_version(&self) -> Result<Version>;
     fn get_version_by_account_sequence(
         &self,
