@@ -196,6 +196,7 @@ members = [
     "diem-swarm",
     "diem-transactional-test-harness",
     "diem-transaction-benchmarks",
+    "diem-transaction-generator",
     "diem-wallet",
     "diemdb-benchmark",
     "executor-benchmark",

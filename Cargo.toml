@@ -143,6 +143,7 @@ members = [
     "sdk/compatibility",
     "sdk/offchain",
     "sdk/transaction-builder",
+    "sdk/transaction-generator",
     "secure/key-manager",
     "secure/net",
     "secure/push-metrics",

@@ -2510,6 +2510,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "diem-transaction-generator"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "bcs",
+ "diem-client",
+ "diem-crypto",
+ "diem-logger",
+ "diem-retrier",
+ "diem-sdk",
+ "diem-types",
+ "diem-workspace-hack",
+ "generate-key",
+ "hex",
+ "itertools 0.10.0",
+ "rand 0.8.3",
+ "structopt 0.3.21",
+ "tokio",
+]
+
+[[package]]
 name = "diem-transaction-replay"
 version = "0.1.0"
 dependencies = [
